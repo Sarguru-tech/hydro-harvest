@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { Assessment, DashboardSummary, IksKnowledge, CommunitySubmission, User } from '../types';
+import {
+  Assessment,
+  DashboardSummary,
+  IksKnowledge,
+  CommunitySubmission,
+  User
+} from '../types';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
@@ -12,11 +18,17 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('hydro_token');
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
+
+/* -------------------------------------------------------------------------- */
+/* MOCK DATA                                                                  */
+/* -------------------------------------------------------------------------- */
 
 export const MOCK_SUMMARY: DashboardSummary = {
   totalAssessments: 148,
@@ -26,6 +38,7 @@ export const MOCK_SUMMARY: DashboardSummary = {
   estimatedWaterSavingsInr: 2182800,
   highPotentialLocationsCount: 112,
   communitySubmissionsCount: 34,
+
   structureDistribution: {
     'Rooftop Recharge Pit': 58,
     'Recharge Trench with Shaft': 38,
@@ -33,11 +46,13 @@ export const MOCK_SUMMARY: DashboardSummary = {
     'Gravity Injection Well': 18,
     'Eri / Oorani Connection': 10,
   },
+
   statusDistribution: {
-    'COMPLETED': 104,
-    'VERIFIED': 32,
-    'REQUIRES_FIELD_INSPECTION': 12,
+    COMPLETED: 104,
+    VERIFIED: 32,
+    REQUIRES_FIELD_INSPECTION: 12,
   },
+
   monthlyRainfallTrend: [
     { month: 'Jan', rainfallMm: 15 },
     { month: 'Feb', rainfallMm: 12 },
@@ -52,6 +67,7 @@ export const MOCK_SUMMARY: DashboardSummary = {
     { month: 'Nov', rainfallMm: 150 },
     { month: 'Dec', rainfallMm: 40 },
   ],
+
   monthlyHarvestingTrend: [
     { month: 'Jan', harvestLiters: 577000 },
     { month: 'Feb', harvestLiters: 462000 },
@@ -71,38 +87,42 @@ export const MOCK_SUMMARY: DashboardSummary = {
 export const MOCK_ASSESSMENTS: Assessment[] = [
   {
     id: 1,
-    assessmentName: "PSG Tech Campus Block A",
-    address: "Avinashi Road, Peelamedu",
-    district: "Coimbatore",
-    state: "Tamil Nadu",
+    assessmentName: 'PSG Tech Campus Block A',
+    address: 'Avinashi Road, Peelamedu',
+    district: 'Coimbatore',
+    state: 'Tamil Nadu',
     latitude: 11.0244,
     longitude: 76.9944,
-    status: "VERIFIED",
-    createdAt: "2026-08-15T10:30:00",
+    status: 'VERIFIED',
+    createdAt: '2026-08-15T10:30:00',
+
     rooftopData: {
       areaSqm: 450,
-      roofType: "Flat RCC",
-      roofMaterial: "Concrete",
+      roofType: 'Flat RCC',
+      roofMaterial: 'Concrete',
       numberOfFloors: 4,
-      buildingUsage: "Institutional",
-      runoffCoefficient: 0.85
+      buildingUsage: 'Institutional',
+      runoffCoefficient: 0.85,
     },
+
     rainfallData: {
       annualRainfallMm: 980,
       monsoonRainfallMm: 720,
       max24hRainfallMm: 90,
-      rainfallSource: "IMD_STATION"
+      rainfallSource: 'IMD_STATION',
     },
+
     soilGroundwaterData: {
-      soilType: "Sandy Loam",
+      soilType: 'Sandy Loam',
       infiltrationRateMmHr: 25,
-      permeability: "Moderate",
+      permeability: 'Moderate',
       groundwaterDepthMeters: 16.5,
-      waterTableCondition: "Safe",
+      waterTableCondition: 'Safe',
       terrainSlopePercent: 2.0,
       nearbyWaterBody: true,
-      nearbyWaterBodyType: "Singanallur Eri"
+      nearbyWaterBodyType: 'Singanallur Eri',
     },
+
     harvestingCalculation: {
       annualHarvestableLiters: 344250,
       monsoonHarvestableLiters: 252450,
@@ -110,57 +130,68 @@ export const MOCK_ASSESSMENTS: Assessment[] = [
       recommendedStorageTankCapacityM3: 17.2,
       firstFlushVolumeLiters: 337.5,
       potableWaterSubstitutionPercentage: 88,
-      estimatedCostSavingsInrPerYear: 20655
+      estimatedCostSavingsInrPerYear: 20655,
     },
+
     rechargeAssessment: {
       suitabilityScore: 86,
-      suitabilityCategory: "Highly Suitable",
+      suitabilityCategory: 'Highly Suitable',
       estimatedAnnualRechargeLiters: 247860,
-      scoreBreakdownJson: '{"soilPermeability":20,"groundwaterDepth":25,"rainfallAvailability":16,"terrainSlope":15,"drainageProximity":10,"total":86}'
+      scoreBreakdownJson:
+        '{"soilPermeability":20,"groundwaterDepth":25,"rainfallAvailability":16,"terrainSlope":15,"drainageProximity":10,"total":86}',
     },
+
     recommendation: {
-      primaryStructureType: "Recharge Trench with Dual Injection Shafts",
-      recommendedDimensions: "10.0m x 1.5m x 2.0m Trench with 150mm perforated bore shaft",
-      iksTraditionalStructureMatch: "Eri & Oorani Cascading Network",
+      primaryStructureType: 'Recharge Trench with Dual Injection Shafts',
+      recommendedDimensions:
+        '10.0m x 1.5m x 2.0m Trench with 150mm perforated bore shaft',
+      iksTraditionalStructureMatch: 'Eri & Oorani Cascading Network',
       confidenceScorePercent: 92,
-      XaiReasonsJson: '["Suitable soil permeability (Sandy Loam) and deep vadose zone (16.5m).","High rooftop runoff volume from 450m² roof requires linear infiltration trench.","Proximity to Singanallur Eri enables safe overflow redirection into traditional catchment."]',
-      implementationStepsJson: '["Dig 10m long trench along perimeter storm drain.","Drill 15m deep recharge shaft with slotted PVC casing inside trench.","Fill trench with graded aggregate boulders and install baffle filter box."]'
-    }
+      XaiReasonsJson:
+        '["Suitable soil permeability (Sandy Loam) and deep vadose zone (16.5m).","High rooftop runoff volume from 450m² roof requires linear infiltration trench.","Proximity to Singanallur Eri enables safe overflow redirection into traditional catchment."]',
+      implementationStepsJson:
+        '["Dig 10m long trench along perimeter storm drain.","Drill 15m deep recharge shaft with slotted PVC casing inside trench.","Fill trench with graded aggregate boulders and install baffle filter box."]',
+    },
   },
+
   {
     id: 2,
-    assessmentName: "Anna Nagar Heights",
-    address: "2nd Avenue, Anna Nagar",
-    district: "Chennai",
-    state: "Tamil Nadu",
-    latitude: 13.0850,
+    assessmentName: 'Anna Nagar Heights',
+    address: '2nd Avenue, Anna Nagar',
+    district: 'Chennai',
+    state: 'Tamil Nadu',
+    latitude: 13.085,
     longitude: 80.2101,
-    status: "COMPLETED",
-    createdAt: "2026-08-16T14:15:00",
+    status: 'COMPLETED',
+    createdAt: '2026-08-16T14:15:00',
+
     rooftopData: {
       areaSqm: 180,
-      roofType: "Flat",
-      roofMaterial: "Concrete",
+      roofType: 'Flat',
+      roofMaterial: 'Concrete',
       numberOfFloors: 2,
-      buildingUsage: "Residential",
-      runoffCoefficient: 0.85
+      buildingUsage: 'Residential',
+      runoffCoefficient: 0.85,
     },
+
     rainfallData: {
       annualRainfallMm: 1400,
       monsoonRainfallMm: 1100,
       max24hRainfallMm: 120,
-      rainfallSource: "IMD_STATION"
+      rainfallSource: 'IMD_STATION',
     },
+
     soilGroundwaterData: {
-      soilType: "Clay Loam",
+      soilType: 'Clay Loam',
       infiltrationRateMmHr: 12,
-      permeability: "Low",
+      permeability: 'Low',
       groundwaterDepthMeters: 6.2,
-      waterTableCondition: "Semi-Critical",
+      waterTableCondition: 'Semi-Critical',
       terrainSlopePercent: 1.2,
       nearbyWaterBody: true,
-      nearbyWaterBodyType: "Otteri Nullah"
+      nearbyWaterBodyType: 'Otteri Nullah',
     },
+
     harvestingCalculation: {
       annualHarvestableLiters: 192780,
       monsoonHarvestableLiters: 151470,
@@ -168,174 +199,241 @@ export const MOCK_ASSESSMENTS: Assessment[] = [
       recommendedStorageTankCapacityM3: 9.6,
       firstFlushVolumeLiters: 135,
       potableWaterSubstitutionPercentage: 97,
-      estimatedCostSavingsInrPerYear: 11566
+      estimatedCostSavingsInrPerYear: 11566,
     },
+
     rechargeAssessment: {
       suitabilityScore: 68,
-      suitabilityCategory: "Moderately Suitable",
+      suitabilityCategory: 'Moderately Suitable',
       estimatedAnnualRechargeLiters: 111426,
-      scoreBreakdownJson: '{"soilPermeability":12,"groundwaterDepth":12,"rainfallAvailability":20,"terrainSlope":15,"drainageProximity":9,"total":68}'
+      scoreBreakdownJson:
+        '{"soilPermeability":12,"groundwaterDepth":12,"rainfallAvailability":20,"terrainSlope":15,"drainageProximity":9,"total":68}',
     },
+
     recommendation: {
-      primaryStructureType: "Above-Ground Storage Tank with Dual Filtration",
-      recommendedDimensions: "10.0 m3 Masonry Cistern + Compact Sand Filter",
-      iksTraditionalStructureMatch: "Temple Tank Catchment System",
+      primaryStructureType:
+        'Above-Ground Storage Tank with Dual Filtration',
+      recommendedDimensions:
+        '10.0 m3 Masonry Cistern + Compact Sand Filter',
+      iksTraditionalStructureMatch: 'Temple Tank Catchment System',
       confidenceScorePercent: 88,
-      XaiReasonsJson: '["Shallow water table (6.2m) limits rapid ground injection without risk of waterlogging.","High annual rainfall (1400mm) makes direct storage highly economical.","Dual filter mesh prevents urban atmospheric particulates from entering storage."]',
-      implementationStepsJson: '["Mount first-flush divert pipe on downspout.","Connect outlet to 10 m³ reinforced masonry cistern.","Provide overflow link to stormwater drain."]'
-    }
-  }
+      XaiReasonsJson:
+        '["Shallow water table (6.2m) limits rapid ground injection without risk of waterlogging.","High annual rainfall (1400mm) makes direct storage highly economical.","Dual filter mesh prevents urban atmospheric particulates from entering storage."]',
+      implementationStepsJson:
+        '["Mount first-flush divert pipe on downspout.","Connect outlet to 10 m³ reinforced masonry cistern.","Provide overflow link to stormwater drain."]',
+    },
+  },
 ];
 
 export const MOCK_IKS: IksKnowledge[] = [
   {
     id: 1,
-    title: "Eri Cascading Water System of Tamil Nadu",
-    systemType: "Eri",
-    region: "South India",
-    state: "Tamil Nadu",
-    district: "Kanchipuram & Chengalpattu",
-    historicalContext: "Eris are ancient surface water tank networks constructed during the Sangam and Chola eras, interconnecting river basins through earthen bunds.",
-    operatingPrinciple: "Monsoon overflow from an upper Eri gravity flows into successive lower Eris across the contour lines, controlling floods and recharging shallow alluvial aquifers.",
-    suitableGeography: "Undulating plain topography with clay-loam topsoil and seasonal monsoon flows.",
-    seasonalRelevance: "Monsoon capture (Oct-Dec) & summer storage supply.",
-    sourceReference: "Tamil Nadu PWD Water Resources Department Historical Archives",
-    isVerified: true
+    title: 'Eri Cascading Water System of Tamil Nadu',
+    systemType: 'Eri',
+    region: 'South India',
+    state: 'Tamil Nadu',
+    district: 'Kanchipuram & Chengalpattu',
+    historicalContext:
+      'Eris are ancient surface water tank networks constructed during the Sangam and Chola eras, interconnecting river basins through earthen bunds.',
+    operatingPrinciple:
+      'Monsoon overflow from an upper Eri gravity flows into successive lower Eris across the contour lines, controlling floods and recharging shallow alluvial aquifers.',
+    suitableGeography:
+      'Undulating plain topography with clay-loam topsoil and seasonal monsoon flows.',
+    seasonalRelevance: 'Monsoon capture (Oct-Dec) & summer storage supply.',
+    sourceReference:
+      'Tamil Nadu PWD Water Resources Department Historical Archives',
+    isVerified: true,
   },
+
   {
     id: 2,
-    title: "Oorani Village Drinking Water Ponds",
-    systemType: "Oorani",
-    region: "South India",
-    state: "Tamil Nadu",
-    district: "Ramanathapuram & Sivagangai",
-    historicalContext: "Community excavated clay-lined ponds specifically dedicated for village drinking water in coastal and saline groundwater tracts.",
-    operatingPrinciple: "Harvests direct pristine surface runoff from protected grass catchments with natural siltation traps.",
-    suitableGeography: "Saline coastal aquifers where groundwater is unpotable.",
-    seasonalRelevance: "Year-round domestic supply.",
-    sourceReference: "Central Ground Water Board IKS Monograph 2021",
-    isVerified: true
+    title: 'Oorani Village Drinking Water Ponds',
+    systemType: 'Oorani',
+    region: 'South India',
+    state: 'Tamil Nadu',
+    district: 'Ramanathapuram & Sivagangai',
+    historicalContext:
+      'Community excavated clay-lined ponds specifically dedicated for village drinking water in coastal and saline groundwater tracts.',
+    operatingPrinciple:
+      'Harvests direct pristine surface runoff from protected grass catchments with natural siltation traps.',
+    suitableGeography:
+      'Saline coastal aquifers where groundwater is unpotable.',
+    seasonalRelevance: 'Year-round domestic supply.',
+    sourceReference:
+      'Central Ground Water Board IKS Monograph 2021',
+    isVerified: true,
   },
+
   {
     id: 3,
-    title: "Johads of Alwar & Arid Rajasthan",
-    systemType: "Johad",
-    region: "North-West Arid Zone",
-    state: "Rajasthan",
-    district: "Alwar",
-    historicalContext: "Simple concave earthen check dams built across natural contour slopes to trap monsoon rain.",
-    operatingPrinciple: "Slows down flood runoff, allowing water to percolate into the dry desert vadose zone and reviving dried riverbeds like Arvari.",
-    suitableGeography: "Hilly contours with permeable sandy-gravelly soil.",
-    seasonalRelevance: "Post-monsoon groundwater elevation.",
-    sourceReference: "Tarun Bharat Sangh Restoration Records",
-    isVerified: true
-  }
+    title: 'Johads of Alwar & Arid Rajasthan',
+    systemType: 'Johad',
+    region: 'North-West Arid Zone',
+    state: 'Rajasthan',
+    district: 'Alwar',
+    historicalContext:
+      'Simple concave earthen check dams built across natural contour slopes to trap monsoon rain.',
+    operatingPrinciple:
+      'Slows down flood runoff, allowing water to percolate into the dry desert vadose zone and reviving dried riverbeds like Arvari.',
+    suitableGeography:
+      'Hilly contours with permeable sandy-gravelly soil.',
+    seasonalRelevance: 'Post-monsoon groundwater elevation.',
+    sourceReference:
+      'Tarun Bharat Sangh Restoration Records',
+    isVerified: true,
+  },
 ];
 
-export const fetchDashboardSummary = async (): Promise<DashboardSummary> => {
-  try {
-    const res = await apiClient.get<DashboardSummary>('/dashboard/summary');
-    return res.data;
-  } catch (err) {
-    return MOCK_SUMMARY;
-  }
-};
+/* -------------------------------------------------------------------------- */
+/* DASHBOARD                                                                  */
+/* -------------------------------------------------------------------------- */
+
+export const fetchDashboardSummary =
+  async (): Promise<DashboardSummary> => {
+    try {
+      const res = await apiClient.get<DashboardSummary>(
+        '/dashboard/summary'
+      );
+
+      return res.data;
+    } catch (err) {
+      console.error(
+        'Dashboard API failed. Using mock dashboard data:',
+        err
+      );
+
+      return MOCK_SUMMARY;
+    }
+  };
+
+/* -------------------------------------------------------------------------- */
+/* ASSESSMENTS                                                                */
+/* -------------------------------------------------------------------------- */
 
 export const fetchAssessments = async (): Promise<Assessment[]> => {
-  try {
-    const res = await apiClient.get<Assessment[]>('/assessments');
-    return res.data.length > 0 ? res.data : MOCK_ASSESSMENTS;
-  } catch (err) {
-    return MOCK_ASSESSMENTS;
-  }
+  const res = await apiClient.get<Assessment[]>('/assessments');
+
+  return res.data;
 };
 
-export const fetchAssessmentById = async (id: number): Promise<Assessment> => {
+export const fetchAssessmentById = async (
+  id: number
+): Promise<Assessment> => {
+  const res = await apiClient.get<Assessment>(
+    `/assessments/${id}`
+  );
+
+  return res.data;
+};
+
+/* -------------------------------------------------------------------------- */
+/* CREATE ASSESSMENT                                                          */
+/* -------------------------------------------------------------------------- */
+
+export const createAssessment = async (
+  data: Partial<Assessment>
+): Promise<Assessment> => {
   try {
-    const res = await apiClient.get<Assessment>(`/assessments/${id}`);
+    console.log('Sending assessment to backend:', data);
+
+    const res = await apiClient.post<Assessment>(
+      '/assessments',
+      data
+    );
+
+    console.log(
+      'Assessment received from backend:',
+      res.data
+    );
+
     return res.data;
-  } catch (err) {
-    return MOCK_ASSESSMENTS.find(a => a.id === Number(id)) || MOCK_ASSESSMENTS[0];
+  } catch (error) {
+    console.error(
+      'CREATE ASSESSMENT API FAILED:',
+      error
+    );
+
+    if (axios.isAxiosError(error)) {
+      console.error(
+        'Status:',
+        error.response?.status
+      );
+
+      console.error(
+        'Backend response:',
+        error.response?.data
+      );
+
+      console.error(
+        'Request URL:',
+        error.config?.url
+      );
+
+      console.error(
+        'Request data:',
+        error.config?.data
+      );
+    }
+
+    /*
+     * IMPORTANT:
+     * Do NOT silently create a fake assessment here.
+     *
+     * Previously, if the backend failed, this function created
+     * a local mock assessment. That made it appear as though
+     * the backend calculation was working even when it wasn't.
+     *
+     * We now throw the error so the UI can show the real problem.
+     */
+
+    throw error;
   }
 };
 
-export const createAssessment = async (data: Partial<Assessment>): Promise<Assessment> => {
-  try {
-    const res = await apiClient.post<Assessment>('/assessments', data);
+/* -------------------------------------------------------------------------- */
+/* IKS KNOWLEDGE                                                              */
+/* -------------------------------------------------------------------------- */
+
+export const fetchIksKnowledge =
+  async (): Promise<IksKnowledge[]> => {
+    try {
+      const res = await apiClient.get<IksKnowledge[]>(
+        '/iks'
+      );
+
+      return res.data;
+    } catch (err) {
+      console.error(
+        'IKS API failed. Using mock IKS data:',
+        err
+      );
+
+      return MOCK_IKS;
+    }
+  };
+
+/* -------------------------------------------------------------------------- */
+/* COMMUNITY                                                                  */
+/* -------------------------------------------------------------------------- */
+
+export const fetchCommunitySubmissions =
+  async (): Promise<CommunitySubmission[]> => {
+    const res =
+      await apiClient.get<CommunitySubmission[]>(
+        '/community'
+      );
+
     return res.data;
-  } catch (err) {
-    const area = data.rooftopData?.areaSqm || 200;
-    const rainfall = data.rainfallData?.annualRainfallMm || 950;
-    const annualHarvest = Math.round(area * rainfall * 0.85 * 0.9);
-    
-    const newAssessment: Assessment = {
-      id: Date.now(),
-      assessmentName: data.assessmentName || 'On-Spot Field Assessment',
-      address: data.address || 'Avinashi Road',
-      district: data.district || 'Coimbatore',
-      state: data.state || 'Tamil Nadu',
-      latitude: data.latitude || 11.0168,
-      longitude: data.longitude || 76.9558,
-      status: 'COMPLETED',
-      createdAt: new Date().toISOString(),
-      rooftopData: {
-        areaSqm: area,
-        roofType: data.rooftopData?.roofType || 'Flat',
-        roofMaterial: data.rooftopData?.roofMaterial || 'Concrete',
-        numberOfFloors: data.rooftopData?.numberOfFloors || 2,
-        buildingUsage: data.rooftopData?.buildingUsage || 'Residential',
-        runoffCoefficient: 0.85
-      },
-      rainfallData: {
-        annualRainfallMm: rainfall,
-        monsoonRainfallMm: Math.round(rainfall * 0.75),
-        max24hRainfallMm: 85,
-        rainfallSource: 'IMD_STATION'
-      },
-      soilGroundwaterData: {
-        soilType: data.soilGroundwaterData?.soilType || 'Sandy Loam',
-        infiltrationRateMmHr: 25,
-        permeability: 'Moderate',
-        groundwaterDepthMeters: data.soilGroundwaterData?.groundwaterDepthMeters || 14,
-        waterTableCondition: 'Safe',
-        terrainSlopePercent: 2.5,
-        nearbyWaterBody: true,
-        nearbyWaterBodyType: 'Eri Lake'
-      },
-      harvestingCalculation: {
-        annualHarvestableLiters: annualHarvest,
-        monsoonHarvestableLiters: Math.round(annualHarvest * 0.75),
-        peakRunoffLitersPerSec: 2.4,
-        recommendedStorageTankCapacityM3: Math.round((annualHarvest * 0.05 / 1000) * 10) / 10,
-        firstFlushVolumeLiters: area * 0.75,
-        potableWaterSubstitutionPercentage: 92,
-        estimatedCostSavingsInrPerYear: Math.round(annualHarvest * 0.06)
-      },
-      rechargeAssessment: {
-        suitabilityScore: 82,
-        suitabilityCategory: 'Highly Suitable',
-        estimatedAnnualRechargeLiters: Math.round(annualHarvest * 0.72),
-        scoreBreakdownJson: '{"soilPermeability":20,"groundwaterDepth":25,"rainfallAvailability":16,"terrainSlope":11,"drainageProximity":10,"total":82}'
-      },
-      recommendation: {
-        primaryStructureType: 'Rooftop Recharge Pit with Baffle Filter',
-        recommendedDimensions: '2.5m x 2.0m x 2.5m Gravel Pit',
-        iksTraditionalStructureMatch: 'Eri & Oorani Cascading Network',
-        confidenceScorePercent: 90,
-        XaiReasonsJson: '["Suitable soil permeability (Sandy Loam) and groundwater depth (14m).","Sufficient annual rainfall (950mm) for rapid aquifer recharge.","Matches South Indian traditional Eri contour harvesting topography."]',
-        implementationStepsJson: '["Excavate pit 2.5m x 2.0m x 2.5m near downspout.","Fill bottom with 1m boulders and middle with 0.5m coarse gravel.","Install dual-mesh first flush diverter."]'
-      }
-    };
-    MOCK_ASSESSMENTS.unshift(newAssessment);
-    return newAssessment;
-  }
-};
+  };
 
-export const fetchIksKnowledge = async (): Promise<IksKnowledge[]> => {
-  try {
-    const res = await apiClient.get<IksKnowledge[]>('/iks');
-    return res.data.length > 0 ? res.data : MOCK_IKS;
-  } catch (err) {
-    return MOCK_IKS;
-  }
-};
+/* -------------------------------------------------------------------------- */
+/* USERS                                                                      */
+/* -------------------------------------------------------------------------- */
+
+export const fetchCurrentUser =
+  async (): Promise<User> => {
+    const res =
+      await apiClient.get<User>('/auth/me');
+
+    return res.data;
+  };
