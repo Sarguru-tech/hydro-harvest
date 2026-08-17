@@ -1,0 +1,24 @@
+# Frontend
+hydro-harvest-frontend/node_modules/
+hydro-harvest-frontend/dist/
+hydro-harvest-frontend/.env
+hydro-harvest-frontend/.env.local
+
+# Backend
+hydro-harvest-backend/target/
+hydro-harvest-backend/.env
+
+# Environment files
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
