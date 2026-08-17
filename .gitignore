@@ -1,24 +1,53 @@
+# ============================================================
+# HydroHarvest Git Ignore
+# ============================================================
+
+# -------------------------
+# Environment / Secrets
+# -------------------------
+.env
+.env.*
+!.env.example
+
+# -------------------------
 # Frontend
+# -------------------------
 hydro-harvest-frontend/node_modules/
 hydro-harvest-frontend/dist/
 hydro-harvest-frontend/.env
-hydro-harvest-frontend/.env.local
+hydro-harvest-frontend/.env.*
+!hydro-harvest-frontend/.env.example
 
+# -------------------------
 # Backend
+# -------------------------
 hydro-harvest-backend/target/
 hydro-harvest-backend/.env
+hydro-harvest-backend/.env.*
 
-# Environment files
-.env
-.env.local
+!hydro-harvest-backend/.env.example
 
+# -------------------------
 # IDE
+# -------------------------
 .vscode/
 .idea/
+*.iml
 
+# -------------------------
 # Logs
+# -------------------------
 *.log
 
+# -------------------------
 # OS files
+# -------------------------
 .DS_Store
 Thumbs.db
+
+# -------------------------
+# Temporary files
+# -------------------------
+*.tmp
+*.temp
+*.swp
