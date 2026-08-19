@@ -1,7 +1,6 @@
 server:
   port: ${PORT:8080}
-  servlet:
-    context-path: /
+  address: 0.0.0.0
 
 spring:
   application:
@@ -12,28 +11,22 @@ spring:
 
   datasource:
     url: jdbc:h2:mem:hydroharvestdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
+    driver-class-name: org.h2.Driver
     username: sa
     password:
 
   h2:
     console:
-      enabled: false
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    open-in-view: false
     hibernate:
       ddl-auto: update
+    open-in-view: false
     show-sql: false
-    properties:
-      hibernate:
-        format_sql: false
-
-app:
-  jwt:
-    secret: ${JWT_SECRET:dev-only-change-this-secret}
-    expiration-ms: 86400000
 
 management:
   endpoints:
@@ -44,3 +37,14 @@ management:
   endpoint:
     health:
       show-details: never
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-only-change-this-secret}
+    expiration-ms: 86400000
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
