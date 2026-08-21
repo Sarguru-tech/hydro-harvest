@@ -13,7 +13,7 @@ WORKDIR /app
 
 COPY --from=build /app/target/hydro-harvest-backend-1.0.0.jar app.jar
 
-ENV JAVA_TOOL_OPTIONS="-Xms64m -Xmx280m -XX:MaxMetaspaceSize=80m -XX:+UseSerialGC"
+ENV JAVA_TOOL_OPTIONS="-Xms32m -Xmx220m -XX:MaxMetaspaceSize=128m -XX:+UseSerialGC"
 
 EXPOSE 8080
 
