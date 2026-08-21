@@ -9,7 +9,7 @@ import {
 
 const API_ROOT =
   import.meta.env.VITE_API_BASE_URL ||
-  'http://localhost:8080';
+  'https://hydro-harvest-backend-new.onrender.com';
 
 const API_BASE_URL =
   `${API_ROOT.replace(/\/$/, '')}/api`;
@@ -355,8 +355,6 @@ export const createAssessment =
       longitude:
         data.longitude,
 
-      /* Backend flat fields */
-
       areaSqm:
         data.areaSqm,
 
@@ -410,8 +408,6 @@ export const createAssessment =
 
       nearbyWaterBodyType:
         data.nearbyWaterBodyType,
-
-      /* Frontend nested fields */
 
       rooftopData: {
 
@@ -580,7 +576,7 @@ export const createAssessment =
         if (!error.response) {
 
           throw new Error(
-            'Cannot connect to HydroHarvest backend at http://localhost:8080. Make sure Spring Boot is running.'
+            'Cannot connect to HydroHarvest backend at https://hydro-harvest-backend-new.onrender.com. Please make sure the backend is running.'
           );
         }
       }
@@ -590,7 +586,7 @@ export const createAssessment =
   };
 
 /* -------------------------------------------------------------------------- */
-/* IKS                                                                         */
+/* IKS                                                                        */
 /* -------------------------------------------------------------------------- */
 
 export const fetchIksKnowledge =
